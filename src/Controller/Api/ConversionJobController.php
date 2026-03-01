@@ -62,6 +62,11 @@ final class ConversionJobController extends AbstractController
             @mkdir($inputDir, 0775, true);
         }
 
+        $outputDir = $this->projectDir . '/var/storage/output';
+        if(!is_dir($outputDir)) {
+            @mkdir($outputDir, 0775, true);
+        }
+
         $storedName = bin2hex(random_bytes(16)) . '.' . $ext;
         $storedPath = $inputDir . '/' . $storedName;
         $file->move($inputDir, $storedName);
