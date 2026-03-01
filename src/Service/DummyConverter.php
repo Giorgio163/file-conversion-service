@@ -6,7 +6,9 @@ final class DummyConverter
 {
     public function convert(string $inputPath, string $outputFormat): string
     {
-        sleep(125);
+        if ($_ENV['APP_ENV'] !== 'test') {
+            sleep(120);
+        }
 
         $payload = [
             'source' => basename($inputPath),

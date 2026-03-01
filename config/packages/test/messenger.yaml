@@ -1,0 +1,11 @@
+framework:
+  messenger:
+    transports:
+      async: 'sync://'
+    routing:
+      App\Message\ConvertFileMessage: async
+
+    buses:
+      messenger.bus.default:
+        middleware:
+          - send_message
