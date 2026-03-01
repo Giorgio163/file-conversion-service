@@ -59,12 +59,16 @@ final class ConversionJobController extends AbstractController
 
         $inputDir = $this->projectDir . '/var/storage/input';
         if(!is_dir($inputDir)) {
-            @mkdir($inputDir, 0775, true);
+            if (!mkdir($inputDir, 0775, true) && !is_dir($inputDir)) {
+                throw new \RuntimeException(sprintf('Directory "%s" was not created', $inputDir));
+            }
         }
 
         $outputDir = $this->projectDir . '/var/storage/output';
         if(!is_dir($outputDir)) {
-            @mkdir($outputDir, 0775, true);
+            if (!mkdir($outputDir, 0775, true) && !is_dir($outputDir)) {
+                throw new \RuntimeException(sprintf('Directory "%s" was not created', $outputDir));
+            }
         }
 
         $storedName = bin2hex(random_bytes(16)) . '.' . $ext;
