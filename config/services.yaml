@@ -23,5 +23,10 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
+    App\Service\DummyConverter:
+        arguments:
+            $simulationSeconds: '%env(int:CONVERSION_SIM_SECONDS)%'
+            $appEnv: '%kernel.environment%'
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

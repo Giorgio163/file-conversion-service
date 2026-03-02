@@ -4,10 +4,17 @@ namespace App\Service;
 
 final class DummyConverter
 {
+    public function __construct(
+        private int $simulationSeconds,
+        private string $appEnv
+    ){
+
+    }
+
     public function convert(string $inputPath, string $outputFormat): string
     {
-        if ($_ENV['APP_ENV'] !== 'test') {
-            sleep(120);
+        if ($this->appEnv !== 'test' && $this->simulationSeconds > 0) {
+            sleep($this->simulationSeconds);
         }
 
         $payload = [
