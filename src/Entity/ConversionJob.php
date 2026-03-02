@@ -86,11 +86,11 @@ class ConversionJob
         return $this->outputPath;
     }
 
-    public function setOutputPath(?string $outputPath): static
+    public function setOutputPath(?string $outputPath): void
     {
         $this->outputPath = $outputPath;
 
-        return $this;
+        $this->touch();
     }
 
     public function getOutputFormat(): ?string
@@ -98,11 +98,11 @@ class ConversionJob
         return $this->outputFormat;
     }
 
-    public function setOutputFormat(?string $outputFormat): void
+    public function setOutputFormat(?string $outputFormat): static
     {
         $this->outputFormat = $outputFormat;
 
-        $this->touch;
+        return $this;
     }
 
     public function getCreatedAt(): ?\DateTimeImmutable

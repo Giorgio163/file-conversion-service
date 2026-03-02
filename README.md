@@ -11,6 +11,14 @@ The service allows clients to:
 
 Jobs are processed asynchronously using **Symfony Messenger**.
 
+
+## Notes
+
+-   Conversion logic is simulated (dummy output generation).
+-   Asynchronous processing is handled via Symfony Messenger with
+    Doctrine transport.
+-   Worker must be running to complete jobs.
+
 ------------------------------------------------------------------------
 
 ## Tech Stack
@@ -164,12 +172,29 @@ Credentials:
 
 ------------------------------------------------------------------------
 
-## Running Tests
+## 🧪 Running Tests
 
-``` bash
-docker compose exec -e APP_ENV=test -e APP_DEBUG=1 php php bin/phpunit
+Before running tests, make sure the **test database** exists and the MySQL user has privileges.
+The test environment uses a separate DB (e.g. `fileconv_test`).
+
+Create DB + grant privileges:
+
+```bash
+docker compose exec db mysql -uroot -proot -e "CREATE DATABASE IF NOT EXISTS fileconv_test;"
+docker compose exec db mysql -uroot -proot -e "GRANT ALL PRIVILEGES ON fileconv_test.* TO 'user'@'%'; FLUSH PRIVILEGES;"
 ```
 
+Run migrations for the test environment:
+
+```bash
+docker compose exec -e APP_ENV=test php php bin/console doctrine:migrations:migrate -n
+```
+
+Now run PHPUnit:
+
+```bash
+docker compose exec -e APP_ENV=test -e APP_DEBUG=1 php php bin/phpunit
+```
 ------------------------------------------------------------------------
 
 ## Useful Commands
@@ -193,10 +218,3 @@ docker compose logs -f
 ```
 
 ------------------------------------------------------------------------
-
-## Notes
-
--   Conversion logic is simulated (dummy output generation).
--   Asynchronous processing is handled via Symfony Messenger with
-    Doctrine transport.
--   Worker must be running to complete jobs.
